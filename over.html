@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+         #story {
+  font-size: 20px;
+  color: #333;
+  padding: 10px;
+  margin: 0 auto;
+  margin-top: 100px;
+  width: 50%;
+  border: 1px solid #333;
+  box-sizing: border-box;
+}
+#statue {
+  width: 100px;
+  height: 100px;
+  transition: transform 0.3s ease;
+  position: absolute;
+  right: 30%;
+  bottom: 30%;
+
+}
+#answer {
+  margin-bottom: 10px;
+}
+#statue:hover {
+  transform: scale(1.2);
+}
+#questionBox {
+ display: none;
+  background-color: #f0f0f0;
+  padding: 10px;
+   position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 300px;
+  height: 250px;
+  border: 2px solid #000;
+  border-radius: 15px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+#character1 {
+  position: relative;
+  left:30%;
+  top: 310px;
+  width: 75px;
+  height: 150px;
+}
+#character2 {
+  position: relative;
+  left: 20%;
+  top: 310px;
+  width: 75px;
+  height: 150px;
+}
+.move {
+  transform: translateX(100px);
+}
+@keyframes blink {
+  0% {opacity: 1;}
+  50% {opacity: 0;}
+  100% {opacity: 1;}
+}
+#successMessage {
+  display: none;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  position: relative;
+  top: 50%;
+  color: red;
+  font-size: 50px;
+}
+    </style>
+</head>
+<body>
+    <p id="story">原来，同伴触发了石像的机关，被关在了这里。就在你们准备出去的时候，石像再一次启动了机关.......你们需要在两分钟内答对五道题才能出去。</p>
+    <img id="character1" src="lucyy.png" alt="Character 1">
+<img id="character2" src="karryy.png" alt="Character 2">
+<div class="door">
+    <img id="statue" src="statue.png" alt="statue">
+    <div id="questionBox" >
+        <p id="timer"></p>
+        <p id="correctCount">答对的题数：</p>
+      <p id="question"></p>
+      <input id="answer" type="text">
+      <p id="feedback" style="color: red;"></p>
+      <button id="submit">提交</button>
+    </div> 
+    <div id="successMessage" >挑战成功！</div>
+  </div>
+  <script>
+ var num1, num2, correctAnswers = 0;
+  document.getElementById('statue').addEventListener('click', function() {
+  num1 = Math.floor(Math.random() * 10);
+  num2 = Math.floor(Math.random() * 10);
+  document.getElementById('questionBox').style.display = 'block';
+  document.getElementById('question').textContent = num1 + " + " + num2 + " = ?";
+});
+  document.getElementById('submit').addEventListener('click', function() {
+  var answer = document.getElementById('answer').value;
+  document.getElementById('answer').value = '';
+  document.getElementById('feedback').textContent = '';
+  if (parseInt(answer) === num1 + num2) {
+    correctAnswers++;
+    document.getElementById('correctCount').textContent = "答对的题数：" + correctAnswers;
+    if (correctAnswers >= 5) {
+      document.getElementById('feedback').textContent = "挑战成功！";
+      clearInterval(countdown);
+      document.getElementById('questionBox').style.display = 'none';
+  document.getElementById('successMessage').style.display = 'flex';
+  
+    } else {
+      // Generate a new question
+      num1 = Math.floor(Math.random() * 100);
+      num2 = Math.floor(Math.random() * 100);
+      document.getElementById('question').textContent = num1 + " + " + num2 + " = ?";
+    }
+  } else {
+    document.getElementById('feedback').textContent = "答案错误！";
+  }
+});
+var countdown;
+
+document.getElementById('statue').addEventListener('click', function() {
+  num1 = Math.floor(Math.random() * 10);
+  num2 = Math.floor(Math.random() * 10);
+  document.getElementById('question').textContent = num1 + " + " + num2 + " = ?";
+  document.getElementById('questionBox').style.display = 'block';
+
+  var timeLeft = 120;
+  document.getElementById('timer').textContent = "剩余时间：" + timeLeft + "秒";
+
+  countdown = setInterval(function() {
+    timeLeft--;
+    document.getElementById('timer').textContent = "剩余时间：" + timeLeft + "秒";
+    if (timeLeft <= 0) {
+      clearInterval(countdown);
+      document.getElementById('feedback').textContent = "挑战失败！";
+    }
+  }, 1000);
+});
+
+
+   
+ 
+</script>
+</body>
+</html>

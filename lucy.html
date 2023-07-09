@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #story {
+  font-size: 20px;
+  color: #333;
+  padding: 10px;
+  margin: 0 auto;
+  margin-top: 100px;
+  width: 50%;
+  border: 1px solid #333;
+  box-sizing: border-box;
+}
+#story span{
+  color: rgba(67, 4, 4, 0.595);
+  font-size: 30px;
+}
+        #statue {
+  width: 100px;
+  height: 100px;
+  transition: transform 0.3s ease;
+  position: absolute;
+  right: 30%;
+  bottom: 30%;
+
+}
+#answer {
+  margin-bottom: 10px;
+}
+#statue:hover {
+  transform: scale(1.2);
+}
+
+#quiz {
+  display: none;
+  background-color: #f0f0f0;
+  padding: 10px;
+   position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 300px;
+  height: 150px;
+  border: 2px solid #000;
+  border-radius: 15px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.hidden {
+  display: none;
+}
+.click-hint {
+    display: none;
+  position: absolute;
+  top: 40%;
+  left: 66%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  font-size: 20px;
+  color: white;
+  background-color: rgba(0, 0, 0, 0.5);
+  padding: 10px;
+  border-radius: 5px;
+}
+.arrow {
+    display: none;
+    width: 50px;
+  height: 50px;
+  position: absolute;
+  top: 50%;
+  left: 66%;
+  transform: translate(-50%, -50%);
+  animation: blink 1s infinite;
+}
+#character {
+  position: relative;
+  left: 0;
+  top: 310px;
+  width: 75px;
+  height: 150px;
+
+.move {
+  transform: translateX(100px);
+}
+@keyframes blink {
+  0% {opacity: 1;}
+  50% {opacity: 0;}
+  100% {opacity: 1;}
+}
+    </style>
+</head>
+<body>
+    <p id="story">你和好伙伴karry都是探险爱好者，有一天，在探险的途中你们失联了，你在寻找karry的途中看到一座石像，于是你走了过去...... <span>（点击人物）</span></p>
+    <img id="character" src="lucyy.png" alt="lucy">
+    <div class="door">
+        <img src="statue.png" id="statue" alt="石像">
+        <div id="quiz" class="hidden">
+          <p>输入正确答案才能见到你的同伴</p>
+          <p id="question"></p>
+          <input type="text" id="answer">
+          <button id="submit">提交</button>
+        </div>
+      </div>
+      <div class="click-hint">
+        点击石像
+    </div>
+    <img src="arrow.png" class="arrow" />
+      <script>
+      var statue = document.getElementById('statue');
+var quiz = document.getElementById('quiz');
+var question = document.getElementById('question');
+var answer = document.getElementById('answer');
+var submit = document.getElementById('submit');
+var hint = document.querySelector('.click-hint');
+var arrow = document.querySelector('.arrow');
+var num1, num2;
+var character = document.getElementById('character');
+var clickCount = 0;
+character.addEventListener('click', function() {
+  clickCount++;
+  if (clickCount <= 3) {
+    character.classList.add('move');
+    character.style.left = clickCount * 10 + '%';
+  }
+  if (clickCount === 3) {
+    hint.style.display = 'block';
+  arrow.style.display = 'block';
+     statue.addEventListener('click', function() {
+  num1 = Math.floor(Math.random() * 100);
+  num2 = Math.floor(Math.random() * 100);
+  question.textContent = num1 + " + " + num2 + " = ?";
+  quiz.style.display = 'flex';
+  hint.style.display = 'none';
+  arrow.style.display = 'none';
+});
+submit.addEventListener('click', function() {
+  if (parseInt(answer.value) === num1 + num2) {
+    window.location.href = 'over.html';
+  } else {
+    alert('再试一次吧~');
+  }
+});// 显示石像的代码
+  }
+});
+   
+ </script>
+</body>
+</html>
