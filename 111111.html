@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>第二关</title>
+    <style>
+         #story {
+  font-size: 20px;
+  color: #333;
+  padding: 10px;
+  margin: 0 auto;
+  margin-top: 100px;
+  width: 50%;
+  border: 1px solid #333;
+  box-sizing: border-box;
+}
+#statue {
+  width: 100px;
+  height: 100px;
+  transition: transform 0.3s ease;
+  position: absolute;
+  right: 30%;
+  bottom: 30%;
+
+}
+#answer {
+  margin-bottom: 10px;
+}
+#statue:hover {
+  transform: scale(1.2);
+}
+#character1 {
+  position: relative;
+  left:30%;
+  top: 310px;
+  width: 75px;
+  height: 150px;
+}
+#character2 {
+  position: relative;
+  left: 20%;
+  top: 310px;
+  width: 75px;
+  height: 150px;
+}
+.move {
+  transform: translateX(100px);
+}
+@keyframes blink {
+  0% {opacity: 1;}
+  50% {opacity: 0;}
+  100% {opacity: 1;}
+}
+#box {
+  display: none;  // 初始时方框不可见
+  position: relative;
+  width: 300px;
+  height: 400px;
+  margin: auto;
+}
+.butterfly {
+  position: absolute;
+  width: 50px;
+  height: 50px;
+ 
+}
+.butterfly.big {
+  width: 100px;
+  height: 100px;
+}
+#score{
+  font-size: 20px;
+  color: #333;
+  padding: 10px;
+  margin: 0 auto;
+  margin-top: 100px;
+  width: 50%;
+  box-sizing: border-box;
+}
+    </style>
+</head>
+<body>
+    <p id="story">原来，同伴触发了石像的机关，被关在了这里。就在你们准备出去的时候，石像再一次启动了机关.......这时，有一群蝴蝶飞了过来，你们需要捕捉它们获取对应积分，攒够20积分则挑战成功。</p>
+    <img id="character1" src="lucyy.png" alt="Character 1">
+<img id="character2" src="karryy.png" alt="Character 2">
+<div class="door">
+    <img id="statue" src="statue.png" alt="statue">
+    <div id="game" style="display: none;">
+      <div id="score">你们的得分是：0</div>
+    </div>
+    <div id="box">
+      <img id="bigButterfly" class="butterfly big" src="butterfly.png" alt="">
+      <img id="smallButterfly" class="butterfly small" src="butterfly.png" alt="">
+    </div>
+  </div>
+  <script>
+document.getElementById('statue').addEventListener('click', function() {
+  document.getElementById('box').style.display = 'block';  // 显示方框
+  document.getElementById('game').style.display = 'block';  // 显示游戏
+  document.getElementById('score').style.display = 'block';  // 显示分数
+});
+
+var score = 0;
+var butterflies = document.getElementsByClassName('butterfly');
+for (var i = 0; i < butterflies.length; i++) {
+  
+  butterflies[i].addEventListener('click', function() {
+    if (this.classList.contains('big')) {
+      score += 5;
+    } else if (this.classList.contains('small')) {
+      score += 2;
+    }
+    document.getElementById('score').innerText = "你们的得分是：" + score;
+    if (score >= 20) {
+  // 隐藏所有元素
+  document.getElementById('box').style.display = 'none';
+  document.getElementById('game').style.display = 'none';
+  document.getElementById('score').style.display = 'none';
+
+  // 创建并显示“挑战成功”的文字
+  var successText = document.createElement('div');
+  successText.innerText = '挑战成功！';
+  successText.style.position = 'absolute';
+  successText.style.top = '50%';
+  successText.style.left = '50%';
+  successText.style.transform = 'translate(-50%, -50%)';
+  successText.style.fontSize = '2em';  // 放大字体
+successText.style.color = 'red'; 
+  document.body.appendChild(successText);
+}
+  });
+}
+
+function moveButterfly(butterfly) {
+  var box = document.getElementById('box');
+  var left = Math.random() * (box.offsetWidth - butterfly.offsetWidth);
+  var top = Math.random() * (box.offsetHeight - butterfly.offsetHeight);
+  butterfly.style.left = Math.min(left, box.offsetWidth - butterfly.offsetWidth) + 'px';
+  butterfly.style.top = Math.min(top, box.offsetHeight - butterfly.offsetHeight) + 'px';
+}
+
+var butterflies = document.getElementsByClassName('butterfly');
+var bigButterfly = document.getElementById('bigButterfly');
+var smallButterfly = document.getElementById('smallButterfly');
+
+setInterval(moveButterfly, 2000, bigButterfly);
+setInterval(moveButterfly, 2000, smallButterfly);  // 每秒移动一次
+</script>
+</body>
+</html>
